@@ -1,0 +1,157 @@
+---
+layout: default
+title: Projects
+permalink: /projects/
+---
+<!-- <!DOCTYPE html> -->
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
+<style>
+table {
+    /*font-family: arial, sans-serif;*/
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+/*tr:nth-child(even) {
+    background-color: #dddddd;
+}*/
+
+.inner {
+  position: relative;
+  max-width: 1000px;
+  padding: 20px 10px;
+  margin: 0 auto;
+}
+
+/*p {font-family: "Lucida Console", Monaco, monospace;
+   font-size: 120%}*/
+#fa {
+    /*text-shadow: 1px 1px 1px #ccc;*/
+    font-size: 1.3em;  
+}
+	
+</style>
+</head>
+<body id="projects_body">
+	<!-- <p><i id="fa" class="fa-li fa fa-flask"></i></p> -->
+<!-- 	<ul class="fa-ul">
+		<li>check <i id="fa" class="fa-li fa fa-flask"></i></li>
+	</ul> -->
+<p style="text-align: justify;">Time to get serious. My academic interests include high-performance computing, visualization, computational geometry, geometric modeling and computational sciences, specifically in numerical methods, optimization and statistical methods.</p>
+
+<p style="text-align: justify;"> I am particularly exploring medical applications. Though technology drives today's medical industry, it still largely remains technologically untapped, distinctly in third world countries like India. A lot of imaging and geometric processing is used for quantitative diagnosis in clinical practices. Commonly in the form of MRI, CT scan, x-ray and less commonly in deep brain stimulation, atrial fibrillation. I am interested in setting up simple and reliable DICOM images database and web-service all the way to solving distributed and parallel algorithm challenges involved in image data visualization and analysis. I want to build applications which respond real-time to the medical data of a patient, eliminating heavy costs of bills incurred today. Importantly, emerging technologies in computer hardware, middleware and APIs are driving the progress in the grid and/or ubiquitous computing technologies. If you are interested in current collaborative works in medical and computing fields, <a href="http://www.sci.utah.edu/">Scientific Computing and Imaging Institute</a> at the University of Utah is a good place to start.
+</p>
+
+<p style="text-align: justify;">
+Mathematics is love, hence is machine learning (ML). But I don't have any prior experience in ML. Shortly, I plan to start a couple of courses focused on statistical methods for machine learning and data analysis. Next is a table of my previous works via internships, bachelor's and master's thesis, they are focused on computational methods in general.
+</p>
+
+	<hr style="border: dashed rgba(255,255,255,0.7) 1.0px;"/>
+	<h4>My previous projects</h4> 
+	<table>
+	  <tr>
+	    <th><center>Project Summary &nbsp <i id="fa" class="fa fa-briefcase" aria-hidden="true"></i></center></th>
+	    <th><center>Interesting Video &nbsp <i id="fa" class="fa fa-video-camera" aria-hidden="true"></i></center></th>
+	  </tr>
+	  <tr>
+	    <td>Algorithm and code development aimed at a distributed data system (Message Passing Interface) for unstructured mesh hole-cutting mesh modification. Mesh modification using hole-cutting basically means to cut a background mesh with other embedding meshes, restablishing connection among the background and embedding meshes.<br>
+			<p style="background-color:Tomato"><i id="fa" class="fa fa-cogs" aria-hidden="true"></i> Skills: FORTRAN, C, MPI, OpenMP</p>
+			<p style="background-color:Gray"><i id="fa" class="fa fa-book" aria-hidden="true"></i> Academic topics: Computational Geometry, High Performance Computing</p>
+			<a href="https://photos.app.goo.gl/GAMg06zH0fFWs3yP2" target="_blank">Demo case</a>
+	  </td>
+	    <td><div style="text-align:center"> 
+	  <button onclick="playPause()">Play/Pause</button> 
+	  <button onclick="makeBig()">Big</button>
+	  <button onclick="makeSmall()">Small</button>
+	  <button onclick="makeNormal()">Normal</button>
+	  <br><br>
+	  <video id="video1" width="420">
+	    <source src="/assets/video/output2.mp4" type="video/mp4">
+	    Your browser does not support HTML5 video.
+	  </video><br>
+	  Aircraft wing simulation employing the development
+	</div> </td>
+	  </tr>
+	  <tr>
+	    <td>I developed a numerical solver using an advected field mathematical model to simulate vesicle dynamics mimicking in-vitu red blood cell behaviour. The mathematical model is a vesicle dynamics model demanding high-order derivative computation of delta-like scalar fields<br>
+	    <p style="background-color:Tomato"><i id="fa" class="fa fa-cogs" aria-hidden="true"></i> Skills: C++, OOP, deal.ii, STL</p>
+			<p style="background-color:Gray"><i id="fa" class="fa fa-book" aria-hidden="true"></i> Academic topics: Numerical methods, software development</p>
+			<a href="https://drive.google.com/file/d/1uu2WdQ7x63-cFlu0lNnmvFTmMzoNfcdY/view?usp=sharing" target="_blank">Synopsis</a> 
+	    </td>  	
+	    <td>
+	    <div style="text-align:center"> 
+	  		<br><br>
+	  		<video id="video2" width="420" controls>
+	    	<source src="/assets/video/video2.mp4" type="video/mp4">
+	    	Your browser does not support HTML5 video.
+	  		</video><br>
+	  		Commercial software simulations video
+	</div></td>
+	  </tr>
+	  <tr>
+	    <td>Internship at <a href="http://www.ikft.kit.edu/english/268.php" target="_blank">Karlruhe Institute of Technology, Germany</a>. Simulation work on chemical spreading of droplets, bubble interaction with solid surfaces and bubble dynamics. I setup test cases on a beta-version multiphase solver ‘phaseFieldFoam’ in OpenFOAM-extend.<br>
+	    <p style="background-color:Tomato"><i id="fa" class="fa fa-cogs" aria-hidden="true"></i> Skills: ubuntu command line, OpenFOAM, CFD</p>
+			<p style="background-color:Gray"><i id="fa" class="fa fa-book" aria-hidden="true"></i> Academic topics: Numerical methods, CFD Analysis</p>
+	    </td>  	
+	    <td>
+	    <div style="text-align:center"> 
+	  		<br><br>
+	  		<video id="video2" width="420" controls>
+	    	<source src="/assets/video/butterfly.mp4" type="video/mp4">
+	    	Your browser does not support HTML5 video.
+	  		</video><br>
+	  		A Droplet spreading on the chemically patterned surface
+	</div></td>
+	  </tr>
+	  <tr>
+	    <td>Internship at <a href="https://www.itv.rwth-aachen.de/index.php?id=1&L=1" target="_blank">RWTH Aachen University, Germany</a>. Project titled <q>Data Analysis of Direct Numerical Simulation (DNS) Multiphase Temporal Jet</q>. Temporal jet in principal represents high-speed fuel-jet that enters a combustion engine. I formulated and then performed statistical analysis namely favre average, turbulent kinetic energy, energy budgets- <a href="https://drive.google.com/open?id=0ByIdH37I6li-ZFZxU21OZGVoRXM" target="_blank">document</a> of the jet data.<br>
+	    <p style="background-color:Tomato"><i id="fa" class="fa fa-cogs" aria-hidden="true"></i> Skills: FORTRAN, CAIO solver (Stanford Univ.), statistics</p>
+			<p style="background-color:Gray"><i id="fa" class="fa fa-book" aria-hidden="true"></i> Academic topics: Data Analysis, HPC, Turbulent flows</p>
+	    </td>  	
+	    <td>
+	    <div style="text-align:center"> 
+	  		<br><br>
+	  		<video id="video2" width="420" controls>
+	    	<source src="/assets/video/temporal_jet.mp4" type="video/mp4">
+	    	Your browser does not support HTML5 video.
+	  		</video><br>
+	  		Temporal-jet simulation
+	</div></td>
+	  </tr>  
+	</table><br>
+
+<!-- 	<a href="./" style="font-size: 30px">Back</a> -->
+
+	<script> 
+	var myVideo = document.getElementById("video1");
+	function playPause() { 
+	    if (myVideo.paused) 
+	        myVideo.play(); 
+	    else 
+	        myVideo.pause(); 
+	} 
+
+	function makeBig() { 
+	    // myVideo.width = 560;
+	    myVideo.width = 720; 
+	} 
+
+	function makeSmall() { 
+	    myVideo.width = 320; 
+	} 
+
+	function makeNormal() { 
+	    myVideo.width = 420; 
+	}
+	</script>
+</body>
+</html>
+<!-- <i class="fa fa-video-camera" aria-hidden="true"></i>	 -->

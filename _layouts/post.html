@@ -1,0 +1,14 @@
+---
+layout: default
+---
+
+<header>
+	<h2 id="post_title">{{ page.title }}</h2>
+	{% if page.layout=='post' %}
+	 <span id="post_date">{{ page.author }}, {{ page.my_date }}</span>
+	{% endif %}
+</header>
+
+<body id="post_body">
+	{{ content }}
+</body>

@@ -1,0 +1,26 @@
+---
+layout: main
+title: Welcome to my website
+author: Sumedh Yadav
+---
+
+<ul>
+<li>I am a mechanical major.</li>
+<li>Nonetheless, I want to pursue graduate education in computing fields.</li>
+<li>Coding is <i class="fa fa-heart" aria-hidden="true"></i>. I discovered the love quite late, but since the enlightenment, I believe coding is the closest thing to human superpower.</li>
+<li>I am a football virgin. Probably I will turn out to be a Madridista or Bayern München fan.
+<li>I don't read comics but I am an enthusiast (
+<a href="./how_on_earth.html">HOW ON EARTH?</a>
+)! Marvel comics and Batman. Can't wait to see the big screen adaptation of Avengers: Infinity War.</li>
+<li>I watch loads of movies, thriller, horror, crime and sci-fi. But I found a new love for TV series, basically comic and others from Netflix.</li>
+<li>Well, if you look at the source code for this website you can easily infer that I am not good at web-designing. I am working on it, and intent to abstract as much as possible (sass...) to deploy a website template.</li>
+<li>This website is not designed for mobile devices, further proving my web-designing clumsiness.</li>
+<!-- <li>I am so so at English grammar either.</li> -->
+</ul>
+
+<hr id="hr"/>
+
+{% for post in site.posts %}
+	<h4 id="post_title"><a href="{{ post.url }}">{{ post.title }}</a></h4>
+	<span id="post_date">{{ post.my_date }}</span>
+{% endfor %}

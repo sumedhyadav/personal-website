@@ -1,0 +1,107 @@
+---
+layout: post
+author: Sumedh Yadav
+my_date: Feb 5, 2018
+comments: true
+---
+
+<p style="text-align: justify;">Recently only I made an automated tic-tac-toe game. It's on the standard 3-by-3 board. I used the minimax algorithm to choose the computer's best move for a round. If you are interested in the algorithm itself, go through <a href="https://www.neverstopbuilding.com/blog/2013/12/13/tic-tac-toe-understanding-the-minimax-algorithm13/" target="_blank">Tic Tac Toe: Understanding the Minimax Algorithm </a> blog, it is the most complete and simplistic material I could find on the web. I deployed the algorithm via recursive function calls. In the worst case scenario, the algorithm would call the function <i>n!</i> or <i>n</i> factorial times, where <i>n</i> is the number of available spaces on the board. So if the computer has to make a move in the first round, the number would be 9! or 362880, it can take at max. 40320 function calls to determine the best move for the computer in the second round of play. Note that <i>n!</i> is the upper bound for the algorithm, in reality, it would take fewer function calls. On my <i>Intel i5</i> system, it takes ~18 seconds for the computer to make a move in the first round. Whereas on my free trinket.io account, it takes infinite time. Check for yourself.</p>
+<center><iframe src="https://trinket.io/embed/python/3cc97e1461?runOption=run&showInstructions=true" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe></center>
+<p style="text-align: justify;">
+An important question that arises is why the code runs so slow on my free trinket account compared to my system. Let's digress a bit as I want to point out a couple of things about python interpreter/compiler possibilities for this static website (html, css and JS). First of all, it is a free account. Instead, if I host the python-to-JS interpreter API locally the execution would be faster. But honestly, I don't know how much faster. There are a number of such APIs (relatively new) such as <a href="http://brython.info/" target="_blank">Brython</a> and <a href="http://skulpt.org/" target="_blank">Skulpt</a>. I personally don't like Brython because the programming weighs more towards JS than python. It is less pythonic. Skulpt seems to be the most popular one, even trinket is based on it. But it is still a growing project and my fiddling attempts have failed to get a reliable and comprehensive (including certain python modules) python-to-JS API for the tic-tac-toe game and beyond. Furthermore, not knowing JS doesn't help me either. In addition to the aforementioned pre-requisite of JS proficiency, widespread usage of JS in distributed and cloud computing has given me another motivation to learn it. I hope to deploy a custom API soon. But the most promising option appears to be not Skulpt but <a href="http://pypyjs.org/" target="_blank">PyPy.js</a>. As the name suggests this API takes the speed advantage of PyPy python interpreter, plus a couple of other compiler magic tricks, which honestly I don't understand but if you are a compiler genius you should look at <a href="https://youtu.be/PiBfOFqDIAI" target="_blank">this video by Ryan Kelly</a> to appreciate fully.
+</p>
+
+<p style="text-align: justify;">
+I am not very new to high-performance computing (HPC) and was aware of the likely outcome, but nonetheless (old habits die hard!) I thought to experiment by parallelizing the recursive function calls of the minimax algorithm. There are a number of modules to accomplish parallelization in python, namely <a href="https://docs.python.org/2/library/threading.html">threading</a>, <a href="https://docs.python.org/2/library/multiprocessing.html">multiprocessing</a> and <a href="https://www.parallelpython.com/">pp (stands for parallel python)</a>. But CPython implementation of modules such as threading suffers from a major drawback of
+<a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a>. So I went with multiprocessing module, using its elementary Pool object. At this point, it is better to look at the following code and the timing results to better understand what these high-level parallel APIs are capable of, or more importantly not capable of.</p>
+
+{% highlight python linenos %}
+from multiprocessing import Pool
+import timeit
+
+# We need the decorator to pre-assign parameters to use the timeit function
+def timeit_wrapper(func,*args):
+	def wrapped():
+		return func(*args)
+	return wrapped
+
+def mat_trace(mat):
+	return mat[0][0] + mat[1][1] + mat[2][2]
+
+def mat_det(mat):
+	return (mat[0][0] * (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2])
+		-mat[1][0] * (mat[0][1] * mat[2][2] - mat[2][1] * mat[0][2])
+		+mat[2][0] * (mat[0][1] * mat[1][2] - mat[1][1] * mat[0][2]))
+
+def parallel_mat_trace():
+	mat1 = [[1 for i in range(3)] for j in range(3)]
+	mat2 = [[2 for i in range(3)] for j in range(3)]
+	mat3 = [[3 for i in range(3)] for j in range(3)]
+	mat4 = [[4 for i in range(3)] for j in range(3)]
+	mat_lst = [mat1,mat2,mat3,mat4]
+
+	# number of sub-process is the parameter of Pool object
+	subprocs = Pool(4)
+
+	# wrapping the map method of the Pool object subprocs 
+	subprocs_wo_args = timeit_wrapper(subprocs.map,mat_trace,mat_lst)
+	print 'For trace calculation'.center(50,'-')
+	print 'Parallel computation time: ',timeit.timeit(subprocs_wo_args,number=10000)
+
+	# wrapping the builtin map function
+	map_wo_args = timeit_wrapper(map,mat_trace,mat_lst)
+	print 'Serial computation time: ',timeit.timeit(map_wo_args,number=10000)
+	print ''.center(50,'-')
+
+	# wrapping the map method of the Pool object subprocs
+	subprocs_wo_args = timeit_wrapper(subprocs.map,mat_det,mat_lst)
+	print 'For determinant calculation'.center(50,'-')
+	print 'Parallel computation time: ',timeit.timeit(subprocs_wo_args,number=10000)
+
+	# wrapping the builtin map function
+	map_wo_args = timeit_wrapper(map,mat_det,mat_lst)
+	print 'Serial computation time: ',timeit.timeit(map_wo_args,number=10000)
+	print ''.center(50,'-')
+
+parallel_mat_trace()
+{% endhighlight %}
+Console output: 
+{% highlight console %}
+--------------For trace calculation---------------
+Parallel computation time:  1.8290719986
+Serial computation time:  0.0108089447021
+--------------------------------------------------
+-----------For determinant calculation------------
+Parallel computation time:  1.80360984802
+Serial computation time:  0.0305261611938
+--------------------------------------------------
+{% endhighlight %}
+
+<p style="text-align: justify;"> Whether trace calculation or determinant calculation, parallel execution is taking more time on my <i>quad-core Intel i5</i> system. Reasons are many-fold. First of all, both of these functions are not compute-intensive i.e., the actual time taken to execute the function statements is very small. A computer is super-optimized (instruction level) to execute a serial code and there is no point running a non-compute-intensive function parallel. On top of it, it takes substantial overhead to fork the sub-processes and join them once the parallel job is done. Well, if you are an HPC expert, you would straight away discard the experiment idea to parallelize the (non-compute intensive) recursive minimax function calls. On a lighter note, you can observe that the performance of mat_det() is better than mat_trace(). And you guessed it right, mat_det() is more compute-intensive than mat_trace(). Currently, HPC or more specifically these high-level parallel APIs, not only in python but in other languages too, for instance, OpenMP and message passing interface (MPI) in C++ or FORTRAN, find applications in data or compute-intensive fields such as image rendering and physical simulations or physically based simulations. Basically, the applciation area is limited to computational sciences. From data-intensive to compute-intensive problem statements, the <a href="https://en.wikipedia.org/wiki/Granularity_(parallel_computing)#Example">granularity</a> of the execution varies, optimizing the performance. Multi-core, many-core and GPUs have paramountly assisted the machine learning (ML) boom we are witnessing nowadays. ML framework libraries such as <a href="https://www.tensorflow.org/deploy/distributed">Tensorflow</a> rely on hybrid or all kinds of parallelization (CPU and GPU based) to train the models. Yet another research trend to amalgamate distributed and parallel computing is grid computing and/or ubiquitous computing. The main thrust area of this research varies from API development to improving middleware to reduce the forking/joining overhead. Maybe the days are not far when the so HPC experts won't deride the idea of parallelizing/distributing the mimimax function recursive calls!</p>
+
+{% if page.comments %}
+<!-- ================================================================= -->
+<!-- 													Disqus script 													 -->
+<!-- ================================================================= -->
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://https-pages-themes-github-io-slate-another-page.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+{% endif %}
